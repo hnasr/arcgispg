@@ -32,7 +32,7 @@ RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B97
 
 # Add PostgreSQL's repository. It contains the most recent stable release
 
-#     of PostgreSQL, ``9.4``.
+#     of PostgreSQL, ``9.5``.
 
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
@@ -44,7 +44,7 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc
 
 #  them by prefixing each apt-get statement with DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y python-software-properties software-properties-common postgresql-9.4 postgresql-client-9.4 postgresql-contrib-9.4
+RUN apt-get update && apt-get install -y python-software-properties software-properties-common postgresql-9.5 postgresql-client-9.5 postgresql-contrib-9.5
 
 
 
@@ -80,20 +80,20 @@ createdb -O docker docker
 
 # database are possible.
 
-RUN echo "host	all	all	all	md5" >> /etc/postgresql/9.4/main/pg_hba.conf
+RUN echo "host	all	all	all	md5" >> /etc/postgresql/9.5/main/pg_hba.conf
 
 
 
-# And add ``listen_addresses`` to ``/etc/postgresql/9.4/main/postgresql.conf``
+# And add ``listen_addresses`` to ``/etc/postgresql/9.5/main/postgresql.conf``
 
-RUN echo "listen_addresses='*'" >> /etc/postgresql/9.4/main/postgresql.conf
+RUN echo "listen_addresses='*'" >> /etc/postgresql/9.5/main/postgresql.conf
 
 
 
 #COPY THE ST geometry file to lib
 #RUN sudo chmod 777 /usr/lib/postgresql/9.4/lib/
 USER root
-RUN sudo cp /myapp/STGeometry/stgeometry/linux/postgres/9.4/st_geometry.so /usr/lib/postgresql/9.4/lib/
+RUN sudo cp /myapp/STGeometry/stgeometry105/linux/postgres/9.5/st_geometry.so /usr/lib/postgresql/9.5/lib/
 USER postgres
 
 
@@ -111,4 +111,4 @@ VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 
 # Set the default command to run when starting the container
 
-CMD ["/usr/lib/postgresql/9.4/bin/postgres", "-D", "/var/lib/postgresql/9.4/main", "-c", "config_file=/etc/postgresql/9.4/main/postgresql.conf"]
+CMD ["/usr/lib/postgresql/9.5/bin/postgres", "-D", "/var/lib/postgresql/9.5/main", "-c", "config_file=/etc/postgresql/9.5/main/postgresql.conf"]
